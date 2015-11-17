@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var app = express();
-var companyData = require('../data/task.json');
-var util = require('util');
+var express = require('express'),
+    router = express.Router(),
+    app = express(),
+    companyData = require('../data/task.json'),
+    util = require('util');
 
 router.get('/', function(req, res, next) {
     res.render('index', {
@@ -28,29 +28,22 @@ router.get('/company', function(req, res, next) {
 });
 
 router.get('/company/:id', function(req, res, next) {
-    var companyName,
-        country,
-        foundingDate,
-        phoneNumber,
-        discription,
-        choiceId = util.format(req.params.id);
+    var choiceId = util.format(req.params.id),
+        chosenCompany = {};
     for (var i in companyData) {
         if (choiceId == companyData[i]._id) {
-            companyName = companyData[i].company;
-            country = companyData[i].country;
-            foundingDate = companyData[i].founding_date;
-            phoneNumber = companyData[i].phone;
-            discription = companyData[i].discription;
+            chosenCompany.company = companyData[i].company;
+            chosenCompany.country = companyData[i].country;
+            chosenCompany.founding_date = companyData[i].founding_date;
+            chosenCompany.phone = companyData[i].phone;
+            chosenCompany.discription = companyData[i].discription;
             res.render('one', {
-                title: companyName,
-                country: country,
-                foundingDate: foundingDate,
-                phoneNumber: phoneNumber,
-                discription: discription
+                title: chosenCompany.company,
+                companyData: chosenCompany
             });
         }
     }
-    if (!companyName) {
+    if (!chosenCompany.company) {
         console.error('Wrong ID');
         throw new Error('Wrong ID');
     }
