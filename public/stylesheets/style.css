@@ -1,6 +1,3 @@
-body {
-    text-indent: 30px;
-}
 #logo_bootstrap{
 	margin-top: -14px;
 }
@@ -17,10 +14,9 @@ body {
 #t17_content{
     margin: 20px;
 }
-#t17_footer{
-    text-align: right;
+.t17_indent {
+    text-indent: 30px;
 }
-
 /*#t17_pages{*/
     /*float: right;*/
     /*width: auto;*/

@@ -7,18 +7,18 @@
 {% block content %}
     <table class="table table-bordered">
         <tr>
-            <th>Company</th>
-            <th>Country</th>
-            <th>Phone</th>
+            <th class="text-center">Company</th>
+            <th class="text-center">Country</th>
+            <th class="text-center">Phone</th>
         </tr>
 
-        {% for info in json %}
+        {% for info in companyData %}
         <tr>
             <td title="{{ info.discription }}">
                 <a href="http://localhost:3000/company/{{ info._id }}">{{ info.company }}</a>
             </td>
-            <td>{{ info.country }}</td>
-            <td>{{ info.phone }}</td>
+            <td class="text-center">{{ info.country }}</td>
+            <td class="text-center">{{ info.phone }}</td>
         </tr>
         {% endfor %}
 
