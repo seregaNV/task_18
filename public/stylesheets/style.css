@@ -1,0 +1,41 @@
+body {
+    text-indent: 30px;
+}
+#logo_bootstrap{
+	margin-top: -14px;
+}
+.jumbotron{
+	position: fixed-bottom;
+	background-image: url(http://localhost:3000/images/background.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	margin-top: 50px;
+}
+#jumbotronh1, #jumbotronp{
+	color: #ddd;
+}
+#t17_content{
+    margin: 20px;
+}
+#t17_footer{
+    text-align: right;
+}
+
+/*#t17_pages{*/
+    /*float: right;*/
+    /*width: auto;*/
+    /*margin-top: 0;*/
+    /*display:inline-block;*/
+    /*text-align: center;*/
+/*}*/
+/*#t17_pagin{*/
+    /*margin-top: -57px;*/
+    /*width: auto;*/
+    /*text-align: center;*/
+    /*text-indent: 0;*/
+/*}*/
+/*#t17_descripPage{*/
+    /*margin-top: 27px;*/
+    /*margin-right: 70px;*/
+    /*text-align: right;*/
+/*}*/

@@ -1,0 +1,55 @@
+{% extends 'index.html' %}
+
+{% block header%}
+<h3 class="indent">In the following table is a list of all companies.</h3>
+{% endblock%}<br>
+
+{% block content %}
+    <table class="table table-bordered">
+        <tr>
+            <th>Company</th>
+            <th>Country</th>
+            <th>Phone</th>
+        </tr>
+
+        {% for info in json %}
+        <tr>
+            <td title="{{ info.discription }}">
+                <a href="http://localhost:3000/company/{{ info._id }}">{{ info.company }}</a>
+            </td>
+            <td>{{ info.country }}</td>
+            <td>{{ info.phone }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <!--<select id="t17_pages" class="form-control">-->
+        <!--<option>1</option>-->
+        <!--<option>2</option>-->
+        <!--<option>3</option>-->
+        <!--<option>4</option>-->
+        <!--<option>5</option>-->
+    <!--</select>-->
+    <!--<p id="t17_descripPage">Quantity of pages:</p>-->
+    <!--<nav id="t17_pagin">-->
+        <!--<ul class="pagination">-->
+            <!--<li>-->
+                <!--<a href="#" aria-label="Previous">-->
+                    <!--<span aria-hidden="true">&laquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<li><a href="#">1</a></li>-->
+            <!--<li><a href="#">2</a></li>-->
+            <!--<li><a href="#">3</a></li>-->
+            <!--<li><a href="#">4</a></li>-->
+            <!--<li><a href="#">5</a></li>-->
+            <!--<li>-->
+                <!--<a href="#" aria-label="Next">-->
+                    <!--<span aria-hidden="true">&raquo;</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</nav>-->
+
+{% endblock %}
