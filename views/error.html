@@ -1,20 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>{{title}}</title>
-</head>
-<body>
-    {% block header%}
-        <h1>{{title}} {{status}}</h1>
-    {% endblock%}
+{% extends 'index.html' %}
 
-    {% block content %}
-        <h3>{{error}}</h3>
-    {% endblock %}
+{% block menu %}
+{% endblock %}
 
-    {% block footer%}
-        {{message}}
-    {% endblock%}
-</body>
-</html>
+{% block header %}
+    <h1>Error</h1>
+{% endblock %}
+
+{% block content %}
+    <h3>{{ message }}</h3>
+{% endblock %}
+
+{% block footer %}
+    <p class="text-left">{{ stack }}</p>
+{% endblock %}

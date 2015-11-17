@@ -1,13 +1,14 @@
-var express = require('express'),
-    json = require('../public/task.json'),
-    util = require('util'),
-    router = express.Router(),
-    now = new Date();
+var express = require('express');
+var router = express.Router();
+var app = express();
+var json = require('../public/task.json');
+var util = require('util');
+var now = new Date();
 
 router.get('/', function(req, res, next) {
     res.render('index', {
         title: 'Task 17',
-        message: "Hello everyone!!!",
+        message: 'Hello everyone!!!',
         date: now
     });
 });
@@ -18,7 +19,7 @@ router.get('/company', function(req, res, next) {
     //    page = req.query.page;
     //console.log(count);
     //console.log(page);
-    if((count == parseInt(Math.abs(count))) || !count) {
+    if ((!count || ((count == parseInt(Math.abs(count))) && count <= json.length)) && count != 0) {
         res.render('all', {
             title: 'Company list',
             json: countJson,
@@ -26,11 +27,7 @@ router.get('/company', function(req, res, next) {
         });
     } else {
         console.error('Incorrect value of "count"');
-        res.render('error', {
-            title: 'Error',
-            error: 'Incorrect value of "count"',
-            message: 'You have entered incorrect value of "count", try again.'
-        });
+        throw new Error('Incorrect value of "count"');
     }
 });
 
@@ -41,7 +38,7 @@ router.get('/company/:id', function(req, res, next) {
         phoneNumber,
         discription,
         choiceId = util.format(req.params.id);
-    for ( var i in json ) {
+    for (var i in json) {
         if (choiceId == json[i]._id) {
             companyName = json[i].company;
             country = json[i].country;
@@ -60,11 +57,24 @@ router.get('/company/:id', function(req, res, next) {
     }
     if (!companyName) {
         console.error('Wrong ID');
-        res.render('error', {
-            title: 'Error',
-            error: 'Wrong ID',
-            message: 'You have entered the wrong ID, try again.'
+        throw new Error('Wrong ID');
+    }
+});
+
+router.use(function(req, res) {
+    console.error('Page not found');
+    throw new Error('Page not found');
+});
+
+router.use(function(err, req, res, next) {
+    if (app.get('env') == 'development') {
+        res.status(500).render('error', {
+            title: 'Error page',
+            message: err.message,
+            stack: err.stack
         });
+    } else {
+        res.status(404).send('Page not found');
     }
 });
 
