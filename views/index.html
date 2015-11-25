@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}</title>
 
-    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <!--<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>-->
+    <!--<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>-->
+    <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">-->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
 
-    <!--<link rel="stylesheet" href="/libs/bootstrap-3.3.5-dist/css/bootstrap.css"/>-->
-    <!--<script src="/libs/JQuery/jquery-1.11.3.min.js"></script>-->
-    <!--<script src="/libs/bootstrap-3.3.5-dist/js/bootstrap.js"></script>-->
+    <link rel="stylesheet" href="/libs/bootstrap-3.3.5-dist/css/bootstrap.css"/>
+    <script src="/libs/JQuery/jquery-1.11.3.min.js"></script>
+    <script src="/libs/bootstrap-3.3.5-dist/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="/stylesheets/style.css"/>
-    <link rel="stylesheet" type="text/css" href="http://localhost:3000/libs/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.css">
+    <script src="javascripts/autocomplete.js"></script>
 </head>
 <body>
     {% block menu %}
@@ -80,7 +81,7 @@
         </div>
         <div class="jumbotron">
             <div class="container">
-                <h1 id="jumbotronh1"><b>Task 17</b></h1>
+                <h1 id="jumbotronh1"><b>{{title}}</b></h1>
                 <p  id="jumbotronp">Working with JSON-files and templating "Swig".</p>
             </div>
         </div>
@@ -88,35 +89,53 @@
 
     <div class="text-justify" id="t17_content">
         {% block header %}
-            <h3>Задание 17.</h3>
+            <h3>Задание 18.</h3>
         {% endblock %}<br>
 
         {% block content %}
-            <p>При выполнении использовать data.json который прилагается к заданию.</p>
             <ol>
-                <li>При запросе на host:port/company должна приходить страница с таблицей по
-                    всем компаниям указаным в "data.json". Имя компании должно быть ссылкой на
-                    страницу подробного описания этой компании. На странице списка компаний
-                    выводить все компании если нету query параметра count, если он указан
-                    выводить столько компаний сколько указано в нём. К примеру
-                    host:port/company?count=10  ­ выводим таблицу из 10 компаний.
+                <li>Добавить поле поиска в хедер страницы(должно присутствовать на каждой
+                    странице приложения)
                 </li>
-                <li>При запросе host:port/company/id должна приходить страница с подробным
-                    описанием компании(название компании(в хедере), страна, дата основания,
-                    номер телефона, описание).
+                <li>При вводе от 3 символов и более должен появляется выпадающий список с
+                    подсказками, по списку можно перемещаться с помощью стрелок верх в низ,
+                    либо выбрать нужный пункт мышью(функционал UI полностью аналогичен
+                    вводу запроса в гугле). Поиск осуществляется только по имени компании,
+                    введёная строка может быть как полным именем, так и просто быть частью
+                    имени(подстрокой). Если ни один из пунктов не выбран, а нажата клавиша Enter
+                    то осуществляется переход на страницу со списком компаний подходящим
+                    критерию поиска(ввод в инпуте поиска). Если выбран пункт из списка
+                    подсказки(туда выводить названия подходящих компаний) то осуществлять
+                    переход на страницу с полным описанием выбранной компании.
+                </li>
+                <li>На стороне сервера нужна соответствующая логика:
+                    <ol>
+                        <li>на запросы поиска при вводе надо отсылать json с данными для
+                            автоподсказки</li>
+                        <li>страница вывода результатов поиска(имена компаний в списке должны быть
+                            ссылками на их страницы), отображение если поиск дал 0 результатов</li>
+                    </ol>
                 </li>
             </ol>
-            <p>Сверстать страницы с использование bootstrap. Каждая страница должна содержать
-                хедер(в зависимости от страницы в хедере должно быть указано “Company list” или
-                имя компании на странице подробной информации) и футер(одинаковый для двух
-                страниц).</p>
             <p>Для перехода на страницу с таблицей компаний - нажмите на кнопку:</p>
             <a href="http://localhost:3000/company"><button type="button" class="btn btn-default">Таблица компаний</button></a>
+
+            <br>
+            <br>
+            <div class="search_area">
+                <form action="" method="GET">
+                    <input type="text" name="query" id="search_box" value="" autocomplete="off">
+                    <input type="submit" value="Поиск">
+                </form>
+                <div id="search_result"></div>
+            </div>
+
+
         {% endblock %}<br>
 
         {% block footer %}
             <hr>
-            <div class="text-right" class="text-muted">
+            <div class="text-right text-muted">
                 <p>Powered by <a href="https://nodejs.org/en/" target="blank">node.js</a> & <a href="http://expressjs.com/ru/" target="blank">express</a></p>
                 <p>With any questions and suggestions, please email:</p>
                 <a href="mailto: serega.n.v333@gmail.com">serega.n.v333@gmail.com</a>
