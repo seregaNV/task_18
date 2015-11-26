@@ -14,6 +14,7 @@ $(document).ready(function(){
             if (inputValueLength > 2) {
                 $searchResult.html("");
                 $.getJSON('./task.json', {}, function(companyData) {
+                    $searchResult.append('<div class="js_advice_variant">' + inputValue + '</div>');
                     for (var i in companyData) {
                         var company = (companyData[i]).company;
                         var companyStr = company.slice(0, inputValue.length);
@@ -57,9 +58,13 @@ $(document).ready(function(){
         e.stopPropagation();
     });
 
+    $searchResult.mouseover(function() {
+        $searchResult.find('div').removeClass('active');
+    });
+
     function key_activate(n){
         var $searchBox = $("#js_search_box");
-        var $searchResultDiv = $('#js_search_result div');
+        var $searchResultDiv = $('#js_search_result').find('div');
         $searchResultDiv.eq(suggestSelected-1).removeClass('active');
 
         if(n == 1 && suggestSelected < quantityOfResults){
