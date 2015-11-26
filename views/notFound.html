@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+{% block header %}
+    <h2>{{ header }}</h2>
+{% endblock %}<br>
+
+{% block content %}
+    <p>{{ message }}</p>
+    <p>To return to the companies search, click on the button:</p>
+    <a href="http://localhost:3000"><button type="button" class="btn btn-default">Home page</button></a>
+{% endblock %}

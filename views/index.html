@@ -20,11 +20,13 @@
 
     <link rel="stylesheet" href="/stylesheets/style.css"/>
     <link rel="stylesheet" type="text/css" href="/libs/font-awesome/css/font-awesome.css">
-    <script src="javascripts/autocomplete.js"></script>
+    {% block head %}
+        <script src="javascripts/autocomplete.js"></script>
+    {% endblock %}
 </head>
 <body>
     {% block menu %}
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar navbar-inverse navbar-fixed-top no_select">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#responsive-menu">
@@ -79,7 +81,7 @@
                 </div>
             </div>
         </div>
-        <div class="jumbotron">
+        <div class="jumbotron no_select">
             <div class="container">
                 <h1 id="jumbotronh1"><b>{{title}}</b></h1>
                 <p  id="jumbotronp">Working with JSON-files and templating "Swig".</p>
@@ -93,19 +95,6 @@
         {% endblock %}<br>
 
         {% block content %}
-            <p>Enter the name of the company, and press "Search"</p>
-            <div class="search_area">
-                <form action="" method="GET" class="form-inline">
-                    <div class="form-group">
-                        <input type="text" name="query" class="form-control" id="search_box" placeholder="Company name" value="" autocomplete="off">
-                    </div>
-                    <button type="submit" class="btn btn-default">Search</button>
-                </form>
-                <div id="search_result"></div>
-            </div>
-            <br>
-            <br>
-
             <ol>
                 <li>Добавить поле поиска в хедер страницы(должно присутствовать на каждой
                     странице приложения)
@@ -130,8 +119,20 @@
                     </ol>
                 </li>
             </ol>
-            <p>Для перехода на страницу с таблицей компаний - нажмите на кнопку:</p>
+            <p>To go to a page with a table of companies - click on the button:</p>
             <a href="http://localhost:3000/company"><button type="button" class="btn btn-default">Таблица компаний</button></a>
+            <br>
+            <br>
+            <p>Enter the name of the company, and press "Search"</p>
+            <div class="search_area">
+                <form action="" method="GET" class="form-inline">
+                    <div class="form-group">
+                        <input type="text" name="query" class="form-control" id="js_search_box" placeholder="Company name" value="" autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form>
+                <div id="js_search_result"></div>
+            </div>
 
         {% endblock %}<br>
 

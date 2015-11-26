@@ -6,47 +6,68 @@ var express = require('express'),
     chosenCompany;
 
 router.get('/', function(req, res, next) {
-    var nameComp = req.query.query;
+    var valueOfQuery = req.query.query;
 
-    if (nameComp == "") {
-        res.render('null', {
-            title: 'Task 18'
+    if (valueOfQuery == "") {
+        res.render('notFound', {
+            title: 'Task 18',
+            header: 'Null value in input',
+            message: 'To select the company, please enter the value of search...'
         });
 
-    } else if (!nameComp) {
+    } else if (!valueOfQuery) {
         res.render('index', {
             title: 'Task 18'
         });
 
-    } else if (nameComp) {
-        var partNameCompany,
+    } else if (valueOfQuery) {
+        var checkingExistenceOfCompany,
+            //checkSubstring,
+            partNameCompany,
             companyList = [];
         chosenCompany = {};
+        valueOfQuery = valueOfQuery.charAt(0).toUpperCase() + valueOfQuery.substr(1).toLowerCase();
+
+
         for (var i in companyData) {
-            partNameCompany = companyData[i].company.slice(0, nameComp.length);
-            if (nameComp == companyData[i].company) {
+            //checkSubstring = companyData[i].company.indexOf(valueOfQuery);
+            partNameCompany = companyData[i].company.slice(0, valueOfQuery.length);
+
+            if ((valueOfQuery == partNameCompany) && (valueOfQuery != companyData[i].company)) {
+                companyList.push(companyData[i]);
+
+            } else if (valueOfQuery == companyData[i].company) {
                 chosenCompany.company = companyData[i].company;
                 chosenCompany.country = companyData[i].country;
                 chosenCompany.founding_date = companyData[i].founding_date;
                 chosenCompany.phone = companyData[i].phone;
                 chosenCompany.discription = companyData[i].discription;
-                res.render('one', {
-                    title: chosenCompany.company,
-                    companyData: chosenCompany
-                });
+                checkingExistenceOfCompany = 1;
             }
-            //else if (nameComp == partNameCompany) {
-            //    companyList.push(companyData[i]);
-            //    console.log('111' + nameComp.length);
-            //    console.log(companyList.length);
-            //    res.render('all', {
-            //        title: 'Chosen companies',
-            //        companyData: companyList
-            //    });
-            //
-            //}
         }
-
+        if (companyList[0]) {
+            res.render('all', {
+                title: 'Chosen companies',
+                partMessage: 'chosen',
+                companyData: companyList
+            });
+        } else if (checkingExistenceOfCompany) {
+            res.render('one', {
+                title: chosenCompany.company,
+                companyData: chosenCompany
+            });
+        } else {
+            res.render('notFound', {
+                title: 'Task 18',
+                header: 'Null result',
+                message: 'Company by your request is not found...'
+            });
+        }
+        //if (checkSubstring == 0) {
+        //    //console.log('"' + checkSubstring + '"');
+        //} else if (checkSubstring == -1) {
+        //    //console.log(checkSubstring);
+        //}
     } else {
         console.error('Incorrect value of "query"');
         throw new Error('Incorrect value of "query"');
@@ -62,6 +83,7 @@ router.get('/company', function(req, res, next) {
     if ((!count || ((count == parseInt(Math.abs(count))) && count <= companyData.length)) && count != 0) {
         res.render('all', {
             title: 'Company list',
+            partMessage: 'all',
             companyData: countData
         });
     } else {
@@ -110,46 +132,3 @@ router.use(function(err, req, res, next) {
 });
 
 module.exports = router;
-
-
-
-
-//
-//router.get('/', function(req, res, next) {
-//    var nameComp = req.query.query;
-//    //console.log(nameComp);
-//    if (nameComp == "") {
-//        res.render('null', {
-//            title: 'Task 18'
-//        });
-//    } else if (!nameComp) {
-//        res.render('index', {
-//            title: 'Task 18'
-//        });
-//    } else if (nameComp) {
-//        var partNameCompany,
-//            companyList;
-//        chosenCompany = {};
-//        for (var i in companyData) {
-//            companyList = companyData[i].company.slice(0, nameComp.length);
-//            if (nameComp == companyList) {
-//                console.log('111' + nameComp.length);
-//            } else if (nameComp == companyData[i].company) {
-//                chosenCompany.company = companyData[i].company;
-//                chosenCompany.country = companyData[i].country;
-//                chosenCompany.founding_date = companyData[i].founding_date;
-//                chosenCompany.phone = companyData[i].phone;
-//                chosenCompany.discription = companyData[i].discription;
-//                res.render('one', {
-//                    title: chosenCompany.company,
-//                    companyData: chosenCompany
-//                });
-//            }
-//        }
-//    } else {
-//    }
-//    //} else {
-//    //    console.error('Incorrect value of "count"');
-//    //    throw new Error('Incorrect value of "count"');
-//    //}
-//});
