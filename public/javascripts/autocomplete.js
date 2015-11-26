@@ -1,52 +1,42 @@
-var suggestCount = 0;
-var inputInitialValue = '';
+var inputValueLength = 0;
 var suggestSelected = 0;
-var quantityResults = 0;
+var quantityOfResults = 0;
+var inputValue = '';
 
 $(document).ready(function(){
-    var searchBox = $("#search_box");
-    var searchResult = $("#search_result");
-    searchBox.keyup(function(I) {
-        // определяем какие действия нужно делать при нажатии на клавиатуру
-        switch(I.keyCode) {
-            // игнорируем нажатия на эти клавишы
-            case 13: case 27: case 37: case 38: case 39: case 40:
-                break;
-
-            default:
-                if($(this).val().length>2){
-                    inputInitialValue = $(this).val();
-                    $.getJSON('./task.json', {}, function(companyData){
-                        suggestCount = companyData.length;
-                        console.log(suggestCount);
-                        if(suggestCount > 0){
-                            searchResult.html("").show();
-                            for(var i in companyData){
-                                var company = (companyData[i]).company;
-                                var companyStr = company.slice(0, inputInitialValue.length);
-                                if(inputInitialValue == companyStr){
-                                    quantityResults += 1;
-                                    searchResult.append('<div class="advice_variant">' + company + '</div>');
-                                    //searchResult.append('<a href="http://localhost:3000/?query=' + (companyData[i]).company + '"><div class="advice_variant">' + (companyData[i]).company + '</div></a>');
-                                }
-
-                            }
+    var $searchBox = $("#search_box");
+    var $searchResult = $("#search_result");
+    $searchBox.keyup(function(I) {
+        if ((I.keyCode >= 48) && (I.keyCode <= 111)) {
+            inputValue = $(this).val();
+            inputValue = inputValue.charAt(0).toUpperCase() + inputValue.substr(1).toLowerCase();
+            inputValueLength = $(this).val().length;
+            if (inputValueLength > 2) {
+                $searchResult.html("");
+                $.getJSON('./task.json', {}, function(companyData) {
+                    for (var i in companyData) {
+                        var company = (companyData[i]).company;
+                        var companyStr = company.slice(0, inputValue.length);
+                        if(inputValue == companyStr){
+                            $searchResult.show();
+                            $searchResult.append('<div class="advice_variant">' + company + '</div>');
+                            //$searchResult.append('<a href="http://localhost:3000/?query=' + (companyData[i]).company + '"><div class="advice_variant">' + (companyData[i]).company + '</div></a>');
                         }
-                        console.log('len' + quantityResults);
-                    });
-                }
-                break;
+                    }
+                    quantityOfResults = $searchResult.children().length;
+                    console.log(quantityOfResults);
+                });
+            }
         }
     });
     //считываем нажатие клавишь, уже после вывода подсказки
-    searchBox.keydown(function(I){
+    $searchBox.keydown(function(I){
         switch(I.keyCode) {
             // по нажатию клавишь прячем подсказку
-            case 13: // enter
-                //submit();
-                break;
+            //case 13: // enter
+            //    break;
             case 27: // escape
-                searchResult.hide();
+                $searchResult.hide();
                 return false;
                 break;
                 //console.log('ent');
@@ -57,7 +47,7 @@ $(document).ready(function(){
             case 38: // стрелка вверх
             case 40: // стрелка вниз
                 I.preventDefault();
-                if(quantityResults){
+                if(quantityOfResults){
                     //делаем выделение пунктов в слое, переход по стрелочкам
                     key_activate( I.keyCode-39 );
                 }
@@ -66,44 +56,37 @@ $(document).ready(function(){
     });
 
     // делаем обработку клика по подсказке
-    $('#search_result').on('click', 'div', function(){
-        // ставим текст в input поиска
-        console.log('click');
-        console.log($(this).text());
+    $searchResult.on('click', 'div', function(){
         $('#search_box').val($(this).text());
-        // прячем слой подсказки
-        searchResult.fadeOut(350).html('');
+        //$.get('http://localhost:3000/?query=' + $(this).text());
     });
 
     // если кликаем в любом месте сайта, нужно спрятать подсказку
     $('html').on('click', function(){
-        searchResult.hide();
+        $searchResult.hide();
     });
     // если кликаем на поле input и есть пункты подсказки, то показываем скрытый слой
-    searchBox.on('click', function(event){
-        //alert(suggestCount);
-        if(suggestCount)
-            searchResult.show();
-        event.stopPropagation();
+    $searchBox.on('click', function(e){
+        if(quantityOfResults) $searchResult.show();
+        e.stopPropagation();
     });
 });
 
 function key_activate(n){
-    var searchBox = $("#search_box");
-    var searchResultDiv = $('#search_result div');
-    searchResultDiv.eq(suggestSelected-1).removeClass('active');
+    var $searchBox = $("#search_box");
+    var $searchResultDiv = $('#search_result div');
+    $searchResultDiv.eq(suggestSelected-1).removeClass('active');
 
-    if(n == 1 && suggestSelected < quantityResults){
+    if(n == 1 && suggestSelected < quantityOfResults){
         suggestSelected++;
     }else if(n == -1 && suggestSelected > 1){
         suggestSelected--;
     }
 
     if( suggestSelected > 0){
-        searchResultDiv.eq(suggestSelected-1).addClass('active');
-        searchBox.val( searchResultDiv.eq(suggestSelected-1).text() );
-        console.log(searchResultDiv.eq(suggestSelected-1).text());
+        $searchResultDiv.eq(suggestSelected-1).addClass('active');
+        $searchBox.val( $searchResultDiv.eq(suggestSelected-1).text() );
     } else {
-        searchBox.val( inputInitialValue );
+        $searchBox.val( inputValue );
     }
 }

@@ -93,6 +93,19 @@
         {% endblock %}<br>
 
         {% block content %}
+            <p>Enter the name of the company, and press "Search"</p>
+            <div class="search_area">
+                <form action="" method="GET" class="form-inline">
+                    <div class="form-group">
+                        <input type="text" name="query" class="form-control" id="search_box" placeholder="Company name" value="" autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form>
+                <div id="search_result"></div>
+            </div>
+            <br>
+            <br>
+
             <ol>
                 <li>Добавить поле поиска в хедер страницы(должно присутствовать на каждой
                     странице приложения)
@@ -119,17 +132,6 @@
             </ol>
             <p>Для перехода на страницу с таблицей компаний - нажмите на кнопку:</p>
             <a href="http://localhost:3000/company"><button type="button" class="btn btn-default">Таблица компаний</button></a>
-
-            <br>
-            <br>
-            <div class="search_area">
-                <form action="" method="GET">
-                    <input type="text" name="query" id="search_box" value="" autocomplete="off">
-                    <input type="submit" value="Поиск">
-                </form>
-                <div id="search_result"></div>
-            </div>
-
 
         {% endblock %}<br>
 
