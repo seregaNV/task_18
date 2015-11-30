@@ -10,14 +10,14 @@ $(document).ready(function(){
         if ((I.keyCode >= 48) && (I.keyCode <= 111)) {
             inputValue = $(this).val();
             inputValue = inputValue.charAt(0).toUpperCase() + inputValue.substr(1).toLowerCase();
-            inputValueLength = $(this).val().length;
+            inputValueLength = inputValue.length;
             if (inputValueLength > 2) {
                 $searchResult.html("");
                 $.getJSON('./task.json', {}, function(companyData) {
                     $searchResult.append('<div class="js_advice_variant">' + inputValue + '</div>');
                     for (var i in companyData) {
                         var company = (companyData[i]).company;
-                        var companyStr = company.slice(0, inputValue.length);
+                        var companyStr = company.slice(0, inputValueLength);
                         if(inputValue == companyStr){
                             $searchResult.show();
                             $searchResult.append('<div class="js_advice_variant">' + company + '</div>');

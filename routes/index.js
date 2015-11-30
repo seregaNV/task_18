@@ -1,6 +1,5 @@
 var express = require('express'),
     router = express.Router(),
-    app = express(),
     companyData = require('../data/task.json'),
     util = require('util'),
     chosenCompany;
